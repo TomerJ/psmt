@@ -5,8 +5,9 @@ using namespace std;
 typedef pair<int, int> pii;
 
 // int N = 1000000000; // 1000000000; // number of iterations // 308915776
-int N = 11322023; // Define number of games to simulate
-int B = 2500000;  // Define how many simulations will be run between printing debugging information (see line 46)
+// int N = 10000000000; // Define number of games to simulate
+int N = 1000000000;
+int B = 5000000; // Define how many simulations will be run between printing debugging information (see line 46)
 
 // Define strings that will be used/checked against
 string alphabet = "abcdefghijklmnopqrstuvwxyz";
@@ -71,21 +72,15 @@ signed main(void)
             charCounts[c - 'a']++;
         }
 
-        int rep = 0; // Store the amount of repeats in the word
+        int oddCount = 0;
         for (int j = 0; j < 26; j++)
         {
-            // If exactly 2 of the same character is found, increment repeats in the word by 1
-            if (charCounts[j] == 2)
-            {
-                rep++;
-            }
-
-            // Check if the amount of characters is indivisible by 2 (i.e. check if number of characters is odd), set palindrome to false
             if (charCounts[j] % 2 != 0)
             {
-                palindrome = false;
+                oddCount++;
             }
         }
+        palindrome = (oddCount <= 1);
 
         // Prize 2: Word must be able to form a palindrome
         if (palindrome) // Check if palindrome flag is true, meaning that the current word is a palindrome
@@ -102,9 +97,23 @@ signed main(void)
             continue;
         }
 
+        int rep = 0;
+        int ones = 0;
+        for (int j = 0; j < 26; j++)
+        {
+            if (charCounts[j] == 2)
+            {
+                rep++;
+            }
+            else if (charCounts[j] == 1)
+            {
+                ones++;
+            }
+        }
+
         // Prize 4: Exactly one repeat
         // Check if there is exactly 1 repeating letter
-        if (rep == 1)
+        if (rep == 1 && ones == 4)
         {
             four++; // Increment count for prize four by 1
             continue;
